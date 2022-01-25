@@ -5,6 +5,12 @@
 {% block content %}
   {% if user.is_authenticated %}
     Hello Employee {{ user.username }}!
+    Address: {{ logged_in_employee.address }} {{ logged_in_employee.zip_code }}
+    <br />
+    <br />
+    Your Pick ups Today: {{ logged_in_employee.todays_pickups }}
+    <br />
+    <br />
   {% else %}
     <p>You are at the employee index, but you are not logged in.</p>
     <a href="{% url 'login' %}">Log In</a>
