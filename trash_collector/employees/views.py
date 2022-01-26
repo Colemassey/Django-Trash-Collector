@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.apps import apps
-
+from .employee_helpers import date_checker
 
 from .models import Employee
 from django.contrib.auth.decorators import login_required
@@ -19,18 +19,21 @@ def index(request):
     try:
         logged_in_employee = Employee.objects.get(user=logged_in_user)
         
-        today = date.today()
+        today = date.today().weekday()
+
+        weekday = date_checker(today) 
 
         Customer = apps.get_model('customers.Customer')
 
         my_customers = Customer.objects.filter(zip_code=logged_in_employee.zip_code)
 
+        my_pickups = my_customers.filter(weekly_pickup=weekday)
 
-        data_visualization = [item for item in my_customers]
+        data_visualization = [item for item in my_pickups]
 
         context = {
                 'logged_in_employee': logged_in_employee,
-                'my_customers': my_customers,
+                'my_pickups': my_pickups,
                 'today': today
 
         }
