@@ -4,9 +4,21 @@
 
 {% block content %}
   {% if user.is_authenticated %}
-    Hello Employee {{ user.username }}!
-    Address: {{ user.address }} {{ user.zip_code }}
+    Hello {{ user.username }}!
     <br />
+    <h2>Todays Pickups</h2>
+    <div class="pickups">
+      <ul>
+        {% for item in my_customers %}
+        <h3>{{item.name}}
+        <br />
+        {{item.address}}
+        <br />
+        {{item.weekly_pickup}}
+        </h3>
+        {%endfor%}
+      </ul>
+    </div>
     <br />
   {% else %}
     <p>You are at the employee index, but you are not logged in.</p>

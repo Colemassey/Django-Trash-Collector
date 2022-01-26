@@ -19,19 +19,22 @@ def index(request):
     try:
         logged_in_employee = Employee.objects.get(user=logged_in_user)
         
+        today = date.today()
+
         Customer = apps.get_model('customers.Customer')
 
-        my_customers = Customer.objects.filter(name="bob")
+        my_customers = Customer.objects.filter(zip_code=logged_in_employee.zip_code)
 
-        today = date.today()
+
+        data_visualization = [item for item in my_customers]
 
         context = {
                 'logged_in_employee': logged_in_employee,
-               
+                'my_customers': my_customers,
                 'today': today
 
         }
-        return render(request, 'employees/index.html')
+        return render(request, 'employees/index.html', context)
     except ObjectDoesNotExist:
         return HttpResponseRedirect(reverse('employees:create'))
 
