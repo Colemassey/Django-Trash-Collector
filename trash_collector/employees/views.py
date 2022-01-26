@@ -4,7 +4,6 @@ from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.apps import apps
 
-from trash_collector.customers.models import Customer
 
 from .models import Employee
 from django.contrib.auth.decorators import login_required
@@ -20,14 +19,16 @@ def index(request):
     try:
         logged_in_employee = Employee.objects.get(user=logged_in_user)
         
-        customer = apps.get_model('customers.Customer')
+        Customer = apps.get_model('customers.Customer')
+
+        my_customers = Customer.objects.filter(name="bob")
 
         today = date.today()
 
         context = {
                 'logged_in_employee': logged_in_employee,
-                'customer': customer,
-                'today': today,
+               
+                'today': today
 
         }
         return render(request, 'employees/index.html')
@@ -64,4 +65,4 @@ def edit_profile(request):
         context = {
             'logged_in_employee': logged_in_employee
         }
-        return render(request, 'employees/index.html', context)
+        return render(request, 'employees/edit_profile.html', context)

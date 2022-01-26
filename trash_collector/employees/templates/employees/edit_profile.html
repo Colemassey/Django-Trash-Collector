@@ -6,7 +6,7 @@
 
 {% block content %}
 <br />
-<form action="{% url 'employee:edit_profile' %}" method="post">
+<form action="{% url 'employees:edit_profile' %}" method="post">
     {% csrf_token %}
     Name: <input type="text" name="name" id="name" value="{{logged_in_employee.name}}">
     <br />
