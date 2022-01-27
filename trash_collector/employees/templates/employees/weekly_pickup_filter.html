@@ -1,0 +1,29 @@
+{% extends 'employees\employee_base.html' %}
+
+{% block title %}{% block header %} Employee Home {% endblock %}{% endblock %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+    Hello {{ user.username }}!
+    <br />
+    <h2>Weekday Filter</h2>
+    <div class="weekly_filter">
+      <ul>
+        {% for item in weekly_pickup_filter %}
+        <h3>{{item.name}}
+        <br />
+        {{item.address}}
+        <br />
+        </h3>
+        {%endfor%}
+      </ul>
+    </div>
+    <br />
+    <form href="{% url 'employees:weekly_pickup_filter' weekday %}">
+    </form>
+  {% else %}
+    <p>You are at the employee weekly pickup filter, but you are not logged in.</p>
+    <a href="{% url 'login' %}">Log In</a>
+    <a href="{% url 'accounts:register' %}">Sign Up</a>
+  {% endif %}
+{% endblock %}
