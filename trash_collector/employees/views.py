@@ -83,8 +83,16 @@ def edit_profile(request):
 def confirm_pickup(request, customer_id):
     Customer = apps.get_model('customers.Customer')
     single_customer = Customer.objects.get(id=customer_id)
-    context = {
-        'single_customer': single_customer,
-        'customer_id': customer_id
-    }
-    return render(request, 'employees/confirmpickup.html')
+    if request.method == 'POST':
+        last_pickup_from_form = request.POST.get('date')
+        single_customer.date_of_last_pickup = last_pickup_from_form
+        single_customer.save()
+        return HttpResponseRedirect(reverse('employees:index'))
+    else:
+        context = {
+            'single_customer': single_customer,
+            'customer_id': customer_id
+        }
+        return render(request, 'employees/confirm_pickup.html', context)
+
+

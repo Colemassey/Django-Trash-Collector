@@ -7,13 +7,20 @@
   
     <h1>Confirm Pickup?</h1>
     <div class="confirm">
-      {% for item in single_customer %}
-      {% item.name %}
+      <h3>{{ single_customer.name }}
       <br />
-      {% item.address %}
-      {%endfor%}
+      {{ single_customer.address }}
+      </h3>
+  
     </div>
     <br />
+    <br />
+    <form action="{% url 'employees:confirm_pickup' customer_id %}" method="post">
+        {% csrf_token %}
+        Confirm Pickup Date: <input type="date" name="date" id="date" value="{{single_customer.date_of_last_pickup}}">
+        <br />
+        <input type="submit" value="Submit">
+    </form>
   {% else %}
     <p>You are at the employee confirm_pickup, but you are not logged in.</p>
     <a href="{% url 'login' %}">Log In</a>
