@@ -97,3 +97,6 @@ def confirm_pickup(request, customer_id):
         return render(request, 'employees/confirm_pickup.html', context)
 
 
+def weekly_pickup_filter(request, weekday):
+    Customer = apps.get_model('customers.Customer')
+    list_of_todays_pickups = Customer.objects.get(weekly_pickup=weekday)
