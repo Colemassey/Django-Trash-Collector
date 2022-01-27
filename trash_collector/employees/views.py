@@ -32,7 +32,11 @@ def index(request):
         my_pickups = my_customers.filter(weekly_pickup=weekday) | my_customers.filter(one_time_pickup=todays_date)
 
         non_suspended_pickups = my_pickups.filter(suspend_start=None) | my_pickups.filter(suspend_end__lt=todays_date)
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> 58decb382ae8146c12696c4324f653fb8d22c1d0
         final_pickups = non_suspended_pickups.exclude(date_of_last_pickup=todays_date) | non_suspended_pickups.filter(date_of_last_pickup=None)
 
         data_visualization = [item for item in final_pickups]
