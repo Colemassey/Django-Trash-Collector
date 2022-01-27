@@ -1,15 +1,13 @@
 {% extends 'employees\employee_base.html' %}
 
-{% block title %}{% block header %} Employee Home {% endblock %}{% endblock %}
+{% block title %}{% block header %} Pickup Filter {% endblock %}{% endblock %}
 
 {% block content %}
   {% if user.is_authenticated %}
-    Hello {{ user.username }}!
     <br />
-    <h2>Weekday Filter</h2>
     <div class="weekly_filter">
       <ul>
-        {% for item in weekly_pickup_filter %}
+        {% for item in list_of_todays_pickups %}
         <h3>{{item.name}}
         <br />
         {{item.address}}
@@ -19,8 +17,20 @@
       </ul>
     </div>
     <br />
-    <form href="{% url 'employees:weekly_pickup_filter' weekday %}">
+    <form action="{% url 'employees:weekly_pickup_filter' %}" method="post">
+      {% csrf_token %}
+      <select name="weekday_selection"> 
+      <option value="Monday">Monday</option>
+      <option value="Tuesday">Tuesday</option>
+      <option value="Wednesday">Wednesday</option>
+      <option value="Thursday">Thursday</option>
+      <option value="Friday">Friday</option>
+      <option value="Saturday">Saturday</option>
+      <option value="Sunday">Sunday</option>
+    </select>
+    <button class="btn btn-primary" type="submit">Apply Filter</button>
     </form>
+    
   {% else %}
     <p>You are at the employee weekly pickup filter, but you are not logged in.</p>
     <a href="{% url 'login' %}">Log In</a>

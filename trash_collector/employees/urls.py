@@ -10,5 +10,6 @@ urlpatterns = [
     path('editprofile/', views.edit_profile, name='edit_profile'),
     path('new/', views.create, name='create'),
     path('confirmpickup/<int:customer_id>/', views.confirm_pickup, name='confirm_pickup'),
-    path('weeklypickupfilter/<weekday>/', views.weekly_pickup_filter, name='weekly_pickup_filter')
+    path('weeklypickupfilter/<str:weekday>/', views.weekly_pickup_filter, name='weekly_pickup_filter'),
+    path('weeklypickupfilter/', views.weekly_pickup_filter, name='weekly_pickup_filter')
 ]
