@@ -31,11 +31,15 @@ def index(request):
 
         my_pickups = my_customers.filter(weekly_pickup=weekday) | my_customers.filter(one_time_pickup=todays_date)
 
-        data_visualization = [item for item in my_pickups]
+        non_suspended_pickups = my_pickups.filter(suspend_start=None) | my_pickups.filter(suspend_end__lt=todays_date)
+        
+        final_pickups = non_suspended_pickups.exclude(date_of_last_pickup=todays_date) | non_suspended_pickups.filter(date_of_last_pickup=None)
+
+        data_visualization = [item for item in final_pickups]
 
         context = {
                 'logged_in_employee': logged_in_employee,
-                'my_pickups': my_pickups,
+                'final_pickups': final_pickups,
                 'today': today
 
         }

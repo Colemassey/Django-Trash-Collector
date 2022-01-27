@@ -9,12 +9,14 @@
     <h2>Todays Pickups</h2>
     <div class="pickups">
       <ul>
-        {% for item in my_pickups %}
+        {% for item in final_pickups %}
         <h3>{{item.name}}
         <br />
         {{item.address}}
         <br />
         {{item.weekly_pickup}}
+        <br />
+        One Time Pickup Date: {{item.one_time_pickup}}
         </h3>
         {%endfor%}
       </ul>
