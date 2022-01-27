@@ -1,15 +1,16 @@
 {% extends 'employees\employee_base.html' %}
 
-{% block title %}{% block header %} Employee Home {% endblock %}{% endblock %}
+{% block title %}{% block header %} Confirm Pickup For... {% endblock %}{% endblock %}
 
 {% block content %}
   {% if user.is_authenticated %}
   
-    <h1>Confirm Pickup?</h1>
     <div class="confirm">
       <h3>{{ single_customer.name }}
       <br />
       {{ single_customer.address }}
+      <br />
+      Balance: ${{ single_customer.balance }}
       </h3>
   
     </div>
