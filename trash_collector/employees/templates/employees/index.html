@@ -12,7 +12,7 @@
         {% for item in final_pickups %}
         <h3>{{item.name}}
         <br />
-        {{item.address}}
+        {{item.address}} <a href="{% url 'employees:confirm_pickup' item.id %}">Confirm Pickup</a>
         <br />
         {{item.weekly_pickup}}
         <br />

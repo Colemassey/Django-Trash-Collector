@@ -1,0 +1,22 @@
+{% extends 'employees\employee_base.html' %}
+
+{% block title %}{% block header %} Employee Home {% endblock %}{% endblock %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+  
+    <h1>Confirm Pickup?</h1>
+    <div class="confirm">
+      {% for item in single_customer %}
+      {% item.name %}
+      <br />
+      {% item.address %}
+      {%endfor%}
+    </div>
+    <br />
+  {% else %}
+    <p>You are at the employee confirm_pickup, but you are not logged in.</p>
+    <a href="{% url 'login' %}">Log In</a>
+    <a href="{% url 'accounts:register' %}">Sign Up</a>
+  {% endif %}
+{% endblock %}
