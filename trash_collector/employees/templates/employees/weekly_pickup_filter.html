@@ -5,17 +5,48 @@
 {% block content %}
   {% if user.is_authenticated %}
     <br />
-    <div class="weekly_filter">
-      <ul>
-        {% for item in list_of_todays_pickups %}
-        <h3>{{item.name}}
-        <br />
-        {{item.address}}
-        <br />
-        </h3>
-        {%endfor%}
-      </ul>
-    </div>
+    <form action="{% url 'employees:weekly_pickup_filter' %}" method="post">
+      {% csrf_token %}
+      <select name="weekday_selection"> 
+      <option value="Monday">Monday</option>
+      <option value="Tuesday">Tuesday</option>
+      <option value="Wednesday">Wednesday</option>
+      <option value="Thursday">Thursday</option>
+      <option value="Friday">Friday</option>
+      <option value="Saturday">Saturday</option>
+      <option value="Sunday">Sunday</option>
+    </select>
+    <button class="btn btn-primary" type="submit">Apply Filter</button>
+    </form>
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <table class="table" id="filterstable">
+              <th>
+                <tr>
+                  <td width="25%">Name</td>
+                  <td width="35%">Address</td>
+                  <td width="30%">Weekly Pickup</td>
+                  <td width="30%">One-Time Pickup</td>
+                </tr>
+              </th>
+              <tbody>
+                {% for item in list_of_todays_pickups %}
+                <tr>
+                  <td width="15%">{{item.name}}</td>
+                  <td width="25%">{{item.address}}</td>
+                  <td width="20%">{{item.weekly_pickup}}</td>
+                  <td width="20%">{{item.one_time_pickup}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        </div>
+      </div>
     <br />
     <form action="{% url 'employees:weekly_pickup_filter' %}" method="post">
       {% csrf_token %}
@@ -37,3 +68,7 @@
     <a href="{% url 'accounts:register' %}">Sign Up</a>
   {% endif %}
 {% endblock %}
+
+<script type="text/javascript">$(document).ready(function() {
+  $('#filterstable').DataTable();
+} );</script>
