@@ -1,30 +1,46 @@
-{% extends 'employees\employee_base.html' %}
+{% extends 'employees\employee_base.html' %} {% block content %}
 
-{% block title %}{% block header %} Employee Home {% endblock %}{% endblock %}
-
-{% block content %}
-  {% if user.is_authenticated %}
-    Hello {{ user.username }}!
-    <br />
-    <h2>Todays Pickups</h2>
-    <div class="pickups">
-      <ul>
-        {% for item in final_pickups %}
-        <h3>{{item.name}}
-        <br />
-        {{item.address}} <a href="{% url 'employees:confirm_pickup' item.id %}">Confirm Pickup</a>
-        <br />
-        {{item.weekly_pickup}}
-        <br />
-        One Time Pickup Date: {{item.one_time_pickup}}
-        </h3>
-        {%endfor%}
-      </ul>
+{% if user.is_authenticated %}
+<div class="row">
+  <div class="col-md-10"><h1>Employee Home</h1></div>
+  <div class="col-md-2">Hello {{ user.username }}!</div>
+</div>
+<div class="row mt-4">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">Today's Pickups</div>
+      <div class="card-body">
+        <table class="table" id="pickupstable">
+          <th>
+            <tr>
+              <td width="15%">Name</td>
+              <td width="25%">Address</td>
+              <td width="20%">Pickup Day</td>
+              <td width="20%">One-Time Pickup</td>
+              <td width="20%"></td>
+            </tr>
+          </th>
+          <tbody>
+            {% for item in final_pickups %}
+            <tr>
+              <td width="15%">{{item.name}}</td>
+              <td width="25%">{{item.address}}</td>
+              <td width="20%">{{item.weekly_pickup}}</td>
+              <td width="20%">{{item.one_time_pickup}}</td>
+              <td width="20%"><button class="btn btn-primary" onclick="window.location.href='{% url 'employees:confirm_pickup' item.id %}';" >Confirm Pickup</button></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
-    <br />
+  </div>
   {% else %}
-    <p>You are at the employee index, but you are not logged in.</p>
-    <a href="{% url 'login' %}">Log In</a>
-    <a href="{% url 'accounts:register' %}">Sign Up</a>
-  {% endif %}
-{% endblock %}
+  <p>You are at the employee index, but you are not logged in.</p>
+  <a href="{% url 'login' %}">Log In</a>
+  <a href="{% url 'accounts:register' %}">Sign Up</a>
+  {% endif %} {% endblock content %}
+</div>
+<script type="text/javascript">$(document).ready(function() {
+  $('#pickupstable').DataTable();
+} );</script>

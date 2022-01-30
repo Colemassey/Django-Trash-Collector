@@ -5,19 +5,42 @@
 {% block header %} Update Your Information {% endblock %}
 
 {% block content %}
-<br />
-<form action="{% url 'employees:edit_profile' %}" method="post">
-    {% csrf_token %}
-    Name: <input type="text" name="name" id="name" value="{{logged_in_employee.name}}">
-    <br />
-    <br />
-    Address: <input type="text" name="address" id="address" value="{{logged_in_employee.address}}">
-    <br />
-    <br />
-    Zip Code: <input type="text" name="zip_code" id="zip_code" value="{{logged_in_employee.zip_code}}">
-    <br />
-    <br />
-    <input type="submit" value="Submit">
-</form>
+
+<div class="row">
+    <div class="col-md-10"><h1>Edit Profile</h1></div>
+    <div class="col-md-2">Hello {{ user.username }}!</div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">Today's Pickups</div>
+        <div class="card-body">
+          <table class="table" id="editstable">
+            <th>
+              <tr>
+                <td width="25%">Name</td>
+                <td width="35%">Address</td>
+                <td width="30%">Zip Code</td>
+                <td width="30%">Submit</td>
+              </tr>
+            </th>
+            <tbody>
+              <tr>
+                <td width="15%"><input type="text" name="name" id="name" value="{{logged_in_employee.name}}"></td>
+                <td width="25%"><input type="text" name="address" id="address" value="{{logged_in_employee.address}}"></td>
+                <td width="20%"><input type="text" name="zip_code" id="zip_code" value="{{logged_in_employee.zip_code}}"></td>
+                <td width="20%"><input type="submit" value="Submit"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+
 
 {% endblock %}
+<script type="text/javascript">$(document).ready(function() {
+    $('#editstable').DataTable();
+  } );</script>
