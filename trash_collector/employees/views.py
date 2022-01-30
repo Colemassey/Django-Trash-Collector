@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.apps import apps
 from .employee_helpers import date_checker
-
+from django.db.models import Q
 from .models import Employee
 from django.contrib.auth.decorators import login_required
 from datetime import date
@@ -29,11 +29,11 @@ def index(request):
 
         my_customers = Customer.objects.filter(zip_code=logged_in_employee.zip_code)
 
-        my_pickups = my_customers.filter(weekly_pickup=weekday) | my_customers.filter(one_time_pickup=todays_date)
+        my_pickups = my_customers.filter(Q(weekly_pickup=weekday) | Q(one_time_pickup=todays_date))
 
-        non_suspended_pickups = my_pickups.filter(suspend_start=None) | my_pickups.filter(suspend_end__lt=todays_date)
+        non_suspended_pickups = my_pickups.exclude(suspend_start__lte=todays_date, suspend_end__gte=todays_date)
         
-        final_pickups = non_suspended_pickups.exclude(date_of_last_pickup=todays_date) | non_suspended_pickups.filter(date_of_last_pickup=None)
+        final_pickups = non_suspended_pickups.exclude(date_of_last_pickup=todays_date)
 
         data_visualization = [item for item in final_pickups]
 
