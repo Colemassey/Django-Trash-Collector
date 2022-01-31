@@ -25,12 +25,15 @@
               </tr>
             </th>
             <tbody>
+              <form action="{% url 'employees:edit_profile' %}" method="post">
+                {% csrf_token %}
               <tr>
                 <td width="15%"><input type="text" name="name" id="name" value="{{logged_in_employee.name}}"></td>
                 <td width="25%"><input type="text" name="address" id="address" value="{{logged_in_employee.address}}"></td>
                 <td width="20%"><input type="text" name="zip_code" id="zip_code" value="{{logged_in_employee.zip_code}}"></td>
                 <td width="20%"><input type="submit" value="Submit"></td>
               </tr>
+              </form>
             </tbody>
           </table>
         </div>
